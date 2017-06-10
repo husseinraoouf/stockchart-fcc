@@ -37,7 +37,7 @@ app.get('/', function(req, res){
     MongoClient.connect(mongodbUrl, function (err, db) {
         var collection = db.collection('charts');
         collection.find().toArray(function(er, results) {
-            res.render('home', {user: req.user, names : results});
+            res.render('home', {user: req.user, names : results, port: process.argv[2]});
         });
     });
 
