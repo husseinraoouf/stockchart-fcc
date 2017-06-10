@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>StockChart-FCC</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Unica+One">
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div id="container" style="height: 400px; min-width: 310px"></div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12 stocks-container">
+                    {{#each names}}
+                    <div class="col-md-4 col-sm-6 stock-block" id="{{this._id}}">
+                        <h3>{{this._id}}<button type="button" class="close">×</button></h3>
+                        <span class="name">{{this.name}} ({{this._id}}) Prices, Dividends, Splits and Trading Volume</span>
+                    </div>
+                    {{/each}}
+
+                    <div class="col-md-4 col-sm-6 stock-block stock-new">
+                        <label>Syncs in realtime across clients</label>
+                        <form>
+                            <div class="input-group">
+                                <input class="form-control" placeholder="Stock code">
+                                 <span class="input-group-btn">
+                                     <button class="btn btn-success" type="submit">Add</button>
+                                 </span>
+                             </div>
+                         </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://code.highcharts.com/stock/highstock.js"></script>
+        <!-- <script src="https://code.highcharts.com/stock/modules/exporting.js"></script> -->
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="js.js"></script>
+        <script>
+            $(document).ready(function() {
+                Highcharts.setOptions(Highcharts.theme);
+                loadChart();
+                {{#each names}}
+                    $.ajax({
+                        url: '/getData?name={{this._id}}',
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            var chart = $('#container').highcharts();
+                            chart.addSeries({
+                                id: '{{this._id}}',
+                                name: '{{this._id}}',
+                                data: data.chart
+                            });
+                        }
+                    });
+
+                {{/each}}
+            });
+
+        </script>
+    </body>
+</html>
