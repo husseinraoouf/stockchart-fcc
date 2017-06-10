@@ -144,6 +144,7 @@ wss.on('connection', function connection(ws) {
 });
 
 var port = process.argv[2];
+
 server.listen(port, function() {
   console.log('server listening on port ' + port);
 });
