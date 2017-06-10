@@ -17,9 +17,7 @@ dataForge.use(require('data-forge-to-highstock'));
 dataForge.use(require('data-forge-from-yahoo'));
 
 
-app.use(express.static('static'))
-
-// app.use(logger('combined'));
+app.use(logger('combined'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
